@@ -8,14 +8,11 @@ keyword =  ["polygon-buffer", "polygon-offset", "straight-skeleton", "polygon-se
 categories = ["algorithms", "graphics", "mathematics", "multimedia::images"]
 license = "Apache-2.0"
 repository = "https://github.com/1011-git/geo-buffer"
-
-
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-geo-types = "0.7.15"
 geo = "0.29.3"
+geo-types = "0.7.15"
 
 [dev-dependencies]
 geo-svg = "0.5.0"
