@@ -8,6 +8,7 @@ keywords =  ["polygon-buffer", "polygon-offset", "straight-skeleton", "polygon-s
 categories = ["algorithms", "graphics", "mathematics", "multimedia::images"]
 license = "Apache-2.0"
 repository = "https://github.com/njwitthoeft/geo-buf"
+readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
