@@ -137,6 +137,9 @@ pub mod skeleton;
 pub mod util;
 mod vertex_queue;
 
+use std::f64::consts::TAU;
+
+use geo::Point;
 #[doc(inline)]
 pub use util::{Coordinate, Ray};
 
@@ -371,4 +374,35 @@ pub fn skeleton_of_multi_polygon_to_linestring(
     orientation: bool,
 ) -> Vec<LineString> {
     Skeleton::skeleton_of_polygon_vector(&input_multi_polygon.0, orientation).to_linestring()
+}
+
+/// This function returns the buffered n-gon of the given point.
+///
+/// # Arguments
+///
+/// + `point`: `Point` to buffer.
+/// + `distance`: determines the distance from the original point to each edge of the resulting n-gon.
+/// + `resolution`: how many sides the resulting polygon will have (n of n-gon).
+///
+/// # Example
+///
+/// ```
+/// use geo_buf::buffer_point;
+/// use geo::{Point, Polygon};
+///
+/// let p1 = Point::new(0.,0.);
+/// let buffered = buffer_point(&p1, 1., 12);
+///
+/// ```
+pub fn buffer_point(point: &Point, distance: f64, resolution: usize) -> Polygon {
+    let mut coordinates: Vec<(f64, f64)> = Vec::with_capacity(resolution + 1);
+    for i in 0..=resolution {
+        let theta = i as f64 * TAU / resolution as f64;
+        let (sin, cos) = theta.sin_cos();
+        let dest_x = point.x() + distance * cos;
+        let dest_y = point.y() + distance * sin;
+
+        coordinates.push((dest_x, dest_y))
+    }
+    Polygon::new(LineString::from(coordinates), vec![])
 }
