@@ -116,10 +116,7 @@ impl Ray {
         //     if orient == true && tmp_angle.outer_product(&ray) > 0.0 {ray = ray*-1.0;}
         //     if orient == false && tmp_angle.outer_product(&ray) < 0.0 {ray = ray*-1.0;}
         // }
-        Self {
-            origin,
-            angle: ray,
-        }
+        Self { origin, angle: ray }
     }
 
     /// Checks whether `self` contains the given Cartesian coordinate.
