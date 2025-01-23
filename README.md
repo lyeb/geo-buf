@@ -1,11 +1,11 @@
-# geo-buffer
-[![geo-buffer on crates.io](https://img.shields.io/crates/d/geo-buffer.svg)](https://crates.io/crates/geo-buffer)
+# geo-buf
 [![Rust 1.68+](https://img.shields.io/badge/rust-1.68+-orange.svg)](https://www.rust-lang.org)
 [![Cargo 1.68+](https://img.shields.io/badge/cargo-1.68+-blue.svg)](https://www.rust-lang.org)
-[![Documentation](https://img.shields.io/docsrs/geo-buffer/latest.svg)](https://docs.rs/geo-buffer)
 
-The `geo-buffer` crate provides methods to buffer (to enlarge or reduce) certain 
+The `geo-buf` crate provides methods to buffer (to enlarge or reduce) certain 
 primitive geometric types in the [GeoRust] ecosystem via a straight skeleton.
+
+It is forked from the `geo-buffer` crate published [here](https://crates.io/crates/geo-buffer)
 
 This crate can handle simple polygons properly as well as non-convex polygons, (valid) sets of polygons, and polygons with one or more holes.
 Note that each method assumes **valid** primitives as a parameter, but [Polygon][Polygon module]/[MultiPolygon][MultiPolygon module] modules
@@ -53,23 +53,24 @@ assert_eq!(&expected_exterior, p2.0[0].exterior())
 ## Usage
 ```toml
 [dependencies]
-geo-buffer = "0.2.1"
+geo-buf = "0.0.1"
 ```
 
 ## Dependencies
 ```toml
 [dependencies]
-geo-types = "0.7.9"
-geo = "0.24.1"
+geo-types = "0.7.15"
+geo = "0.29.3"
 ```
 
 ## Main Contributor
  * [Teneleven Corp](https://1011.co.kr)
  * [Inseop Youn](https://github.com/pinebananais)
+ * [Nicholas Witthoeft](https://github.com/njwitthoeft)
 
 
 ## License
-The geo-buffer crate is licensed under the Apache License (Version 2.0)
+The geo-buf crate is licensed under the Apache License (Version 2.0)
  * Details : [LICENSE-APACHE](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Contact
