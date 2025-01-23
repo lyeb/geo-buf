@@ -53,7 +53,7 @@ assert_eq!(&expected_exterior, p2.0[0].exterior())
 ## Usage
 ```toml
 [dependencies]
-geo-buf = "0.0.1"
+geo-buf = "0.0.3"
 ```
 
 ## Dependencies
