@@ -388,13 +388,19 @@ pub fn skeleton_of_multi_polygon_to_linestring(
 ///
 /// ```
 /// use geo_buf::buffer_point;
-/// use geo::{Point, Polygon};
+/// use geo::{Point, Polygon, HasDimensions};
 ///
 /// let p1 = Point::new(0.,0.);
 /// let buffered = buffer_point(&p1, 1., 12);
 ///
+/// let neg_empty = buffer_point(&p1, -1., 12);
+/// assert!(neg_empty.is_empty())
+///
 /// ```
 pub fn buffer_point(point: &Point, distance: f64, resolution: usize) -> Polygon {
+    if distance < 0. {
+        return Polygon::new(LineString::new(vec![]), vec![]);
+    }
     let mut coordinates: Vec<(f64, f64)> = Vec::with_capacity(resolution + 1);
     for i in 0..=resolution {
         let theta = i as f64 * TAU / resolution as f64;
