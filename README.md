@@ -74,7 +74,7 @@ The geo-buf crate is licensed under the Apache License (Version 2.0)
  * Details : [LICENSE-APACHE](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Contact
- * Teneleven Corp / support@1011.co.kr / https://1011.co.kr
+ * Nicholas Witthoeft / https://github.com/njwitthoeft
 
 [GeoRust]: https://georust.org
 [Polygon module]: https://docs.rs/geo/0.24.1/geo/geometry/struct.Polygon.html
