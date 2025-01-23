@@ -47,7 +47,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (1., 2.).into();
     /// let c2 = (2., 3.).into();
@@ -67,7 +67,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (1., 2.).into();
     /// let c2 = (2., 3.).into();
@@ -85,7 +85,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (1., 2.).into();
     /// let c2 = (2., 3.).into();
@@ -135,7 +135,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (1., 2.).into();
     /// let c2 = (2., 3.).into();
@@ -161,7 +161,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (1., 2.).into();
     /// let c2 = (2., 3.).into();
@@ -199,7 +199,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (0., 0.).into();
     /// let c2 = (1., 1.).into();
@@ -239,7 +239,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (0., 0.).into();
     /// let c2 = (1., 1.).into();
@@ -271,7 +271,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (0., 0.).into();
     /// let c2 = (3., 4.).into();
@@ -304,7 +304,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (0., 0.).into();
     /// let c2 = (3., 4.).into();
@@ -326,7 +326,7 @@ impl Ray {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let c1 = (0., 0.).into();
     /// let c2 = (3., 4.).into();

@@ -32,7 +32,7 @@ Code snippets below is a brief guide to use this crate. Click 'Result' to expand
 ### Example
 
 ```rust
-use geo_buffer::buffer_polygon;
+use geo_buf::buffer_polygon;
 use geo::{Polygon, MultiPolygon, LineString};
 
 let p1 = Polygon::new(

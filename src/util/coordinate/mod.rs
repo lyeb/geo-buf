@@ -96,7 +96,7 @@ impl Coordinate {
     /// # Example
     ///
     /// ```
-    /// let c1 = geo_buffer::Coordinate::new(3., 4.);
+    /// let c1 = geo_buf::Coordinate::new(3., 4.);
     /// assert_eq!(c1, (3., 4.).into());
     /// ```
     pub fn new(x: f64, y: f64) -> Self {
@@ -108,7 +108,7 @@ impl Coordinate {
     /// # Example
     ///
     /// ```
-    /// let c1 = geo_buffer::Coordinate::new(3., 4.);
+    /// let c1 = geo_buf::Coordinate::new(3., 4.);
     /// let t1 = c1.get_val();
     /// assert_eq!(t1, (3., 4.));
     /// ```
@@ -131,8 +131,8 @@ impl Coordinate {
     /// # Example
     ///
     /// ```
-    /// let c1 = geo_buffer::Coordinate::new(1., 2.);
-    /// let c2 = geo_buffer::Coordinate::new(3., 4.);
+    /// let c1 = geo_buf::Coordinate::new(1., 2.);
+    /// let c2 = geo_buf::Coordinate::new(3., 4.);
     /// let ip = c1.inner_product(&c2);
     /// assert_eq!(ip, 11.);
     /// ```
@@ -161,8 +161,8 @@ impl Coordinate {
     /// # Example
     ///
     /// ```
-    /// let c1 = geo_buffer::Coordinate::new(1., 2.);
-    /// let c2 = geo_buffer::Coordinate::new(3., 4.);
+    /// let c1 = geo_buf::Coordinate::new(1., 2.);
+    /// let c2 = geo_buf::Coordinate::new(3., 4.);
     /// let op = c1.outer_product(&c2);
     /// assert_eq!(op, -2.);
     /// ```
@@ -184,7 +184,7 @@ impl Coordinate {
     /// # Example
     ///
     /// ```
-    /// let c1 = geo_buffer::Coordinate::new(3., 4.);
+    /// let c1 = geo_buf::Coordinate::new(3., 4.);
     /// assert_eq!(c1.norm(), 5.);
     /// ```
     pub fn norm(&self) -> f64 {
@@ -196,8 +196,8 @@ impl Coordinate {
     /// # Example
     ///
     /// ```
-    /// let c1 = geo_buffer::Coordinate::new(3., 4.);
-    /// let c2 = geo_buffer::Coordinate::new(7., 7.);
+    /// let c1 = geo_buf::Coordinate::new(3., 4.);
+    /// let c2 = geo_buf::Coordinate::new(7., 7.);
     /// assert_eq!(c1.dist_coord(&c2), 5.);
     /// ```
     pub fn dist_coord(&self, rhs: &Coordinate) -> f64 {
@@ -212,7 +212,7 @@ impl Coordinate {
     /// # Example
     ///
     /// ```
-    /// use geo_buffer::{Coordinate, Ray};
+    /// use geo_buf::{Coordinate, Ray};
     ///
     /// let r1 = Ray::new((0., 3.).into(), (4., 0.).into());
     /// let c1 = Coordinate::new(0., 0.);
@@ -236,9 +236,9 @@ impl Coordinate {
     /// # Example
     ///
     /// ```
-    /// let c1 = geo_buffer::Coordinate::new(0.1, 0.2);
-    /// let c2 = geo_buffer::Coordinate::new(0.2, 0.3);
-    /// let c3 = geo_buffer::Coordinate::new(0.3, 0.5);
+    /// let c1 = geo_buf::Coordinate::new(0.1, 0.2);
+    /// let c2 = geo_buf::Coordinate::new(0.2, 0.3);
+    /// let c3 = geo_buf::Coordinate::new(0.3, 0.5);
     /// let c4 = c1 + c2;
     /// assert!(c3.eq(&c4));
     /// ```
@@ -246,9 +246,9 @@ impl Coordinate {
     /// # Example (this example panics)
     ///
     /// ```should_panic
-    /// let c1 = geo_buffer::Coordinate::new(0.1, 0.2);
-    /// let c2 = geo_buffer::Coordinate::new(0.2, 0.3);
-    /// let c3 = geo_buffer::Coordinate::new(0.3, 0.5);
+    /// let c1 = geo_buf::Coordinate::new(0.1, 0.2);
+    /// let c2 = geo_buf::Coordinate::new(0.2, 0.3);
+    /// let c3 = geo_buf::Coordinate::new(0.3, 0.5);
     /// let c4 = c1 + c2;
     /// assert_eq!(c3, c4); // should panic since 0.1 + 0.2 != 0.3 due to floating point errors
     /// ```
