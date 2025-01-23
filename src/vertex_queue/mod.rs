@@ -195,11 +195,11 @@ impl VertexQueue {
         let mut visit = vec![false; self.content.len()];
         while sv_idx < self.start_vertex.len() {
             let mut cur = self.start_vertex[sv_idx];
-            while self.content[cur].done == true && visit[cur] == false {
+            while self.content[cur].done && !visit[cur] {
                 visit[cur] = true;
                 cur = self.content[cur].right.get_index();
             }
-            if visit[cur] == true
+            if visit[cur]
                 || self.content[cur].left.get_index() == self.content[cur].right.get_index()
             {
                 self.start_vertex.swap_remove(sv_idx);
@@ -222,7 +222,7 @@ impl VertexQueue {
         }
     }
 
-    pub(crate) fn iter<'a>(&'a self) -> Iter<'a> {
+    pub(crate) fn iter(&self) -> Iter<'_> {
         Iter {
             item: self,
             sv_idx: 0,

@@ -105,10 +105,10 @@ impl Ray {
                 ray = ray * -1.;
             }
         } else {
-            if orient == true && self.angle.outer_product(&ray) > 0.0 {
+            if orient && self.angle.outer_product(&ray) > 0.0 {
                 ray = ray * -1.0;
             }
-            if orient == false && self.angle.outer_product(&ray) < 0.0 {
+            if !orient && self.angle.outer_product(&ray) < 0.0 {
                 ray = ray * -1.0;
             }
         }
@@ -116,10 +116,7 @@ impl Ray {
         //     if orient == true && tmp_angle.outer_product(&ray) > 0.0 {ray = ray*-1.0;}
         //     if orient == false && tmp_angle.outer_product(&ray) < 0.0 {ray = ray*-1.0;}
         // }
-        Self {
-            origin: origin,
-            angle: ray,
-        }
+        Self { origin, angle: ray }
     }
 
     /// Checks whether `self` contains the given Cartesian coordinate.
@@ -255,15 +252,11 @@ impl Ray {
         if feq(op, 0.0) && !self.is_contain(&rhs.origin) {
             return true;
         }
-        return false;
+        false
     }
 
     pub(crate) fn is_degenerated(&self) -> bool {
-        if feq(self.angle.0, 0.) && feq(self.angle.1, 0.) {
-            true
-        } else {
-            false
-        }
+        feq(self.angle.0, 0.) && feq(self.angle.1, 0.)
     }
 
     /// Normalizes the given `Ray`. The magnitude of the 'velocity' becomes 1. Does nothing if it is 0.
@@ -295,7 +288,7 @@ impl Ray {
         if fgt(res, 0.) {
             return 1;
         }
-        return -1;
+        -1
     }
 
     /// Returns the reversed ray of the given ray. The returned ray has the same starting point

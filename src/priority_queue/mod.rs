@@ -38,14 +38,14 @@ impl<T: std::cmp::PartialOrd> PriorityQueue<T> {
     }
 
     pub fn peek(&self) -> Option<&T> {
-        if self.is_empty() == true {
+        if self.is_empty() {
             return None;
         }
         Some(&self.content[0])
     }
 
     pub fn pop(&mut self) -> Option<T> {
-        if self.is_empty() == true {
+        if self.is_empty() {
             return None;
         }
         let ret = self.content.swap_remove(0);

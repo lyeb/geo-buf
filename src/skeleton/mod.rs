@@ -12,21 +12,21 @@ use crate::vertex_queue::*;
 #[derive(Debug)]
 #[allow(dead_code)]
 pub(crate) enum VertexType {
-    TreeVertex {
+    Tree {
         axis: Ray,
         left_ray: Ray,
         right_ray: Ray,
         parent: usize,
         time_elapsed: f64,
     },
-    SplitVertex {
+    Split {
         anchor: usize,
         location: Coordinate,
         split_left: usize,
         split_right: usize,
         time_elapsed: f64,
     },
-    RootVertex {
+    Root {
         location: Coordinate,
         time_elapsed: f64,
     },
@@ -38,7 +38,7 @@ impl VertexType {
         let r2 = Ray::new(cv, rv);
         let mut r3 = r1.bisector(&r2, cv, orient);
         r3.angle = r3.angle / (r3.point_by_ratio(1.).dist_ray(&r2));
-        VertexType::TreeVertex {
+        VertexType::Tree {
             axis: r3,
             left_ray: r1,
             right_ray: r2,
@@ -55,7 +55,7 @@ impl VertexType {
                     - axis.point_by_ratio(0.).dist_ray(&left_ray),
             );
         let time_elapsed = axis.origin.dist_ray(&left_ray);
-        VertexType::TreeVertex {
+        VertexType::Tree {
             axis,
             left_ray,
             right_ray,
@@ -71,7 +71,7 @@ impl VertexType {
         split_right: usize,
         time_elapsed: f64,
     ) -> Self {
-        VertexType::SplitVertex {
+        VertexType::Split {
             anchor,
             location,
             split_left,
@@ -81,9 +81,9 @@ impl VertexType {
     }
 
     fn new_root_vertex(location: Coordinate, time_elapsed: f64) -> Self {
-        VertexType::RootVertex {
-            location: location,
-            time_elapsed: time_elapsed,
+        VertexType::Root {
+            location,
+            time_elapsed,
         }
     }
 
@@ -130,41 +130,41 @@ impl VertexType {
 
     fn unwrap_location(&self) -> Coordinate {
         match self {
-            VertexType::TreeVertex { axis, .. } => axis.origin.clone(),
-            VertexType::SplitVertex { location, .. } => location.clone(),
-            VertexType::RootVertex { location, .. } => location.clone(),
+            VertexType::Tree { axis, .. } => axis.origin,
+            VertexType::Split { location, .. } => *location,
+            VertexType::Root { location, .. } => *location,
         }
     }
 
     fn unwrap_time(&self) -> f64 {
         match self {
-            VertexType::TreeVertex { time_elapsed, .. } => *time_elapsed,
-            VertexType::SplitVertex { time_elapsed, .. } => *time_elapsed,
-            VertexType::RootVertex { time_elapsed, .. } => *time_elapsed,
+            VertexType::Tree { time_elapsed, .. } => *time_elapsed,
+            VertexType::Split { time_elapsed, .. } => *time_elapsed,
+            VertexType::Root { time_elapsed, .. } => *time_elapsed,
         }
     }
 
     fn unwrap_ray(&self) -> Ray {
-        if let VertexType::TreeVertex { axis, .. } = self {
-            return axis.clone();
+        if let VertexType::Tree { axis, .. } = self {
+            return *axis;
         }
         panic!("Expected VertexType::TreeVertex");
     }
 
     fn unwrap_base_ray(&self) -> (Ray, Ray) {
-        if let VertexType::TreeVertex {
+        if let VertexType::Tree {
             left_ray,
             right_ray,
             ..
         } = self
         {
-            return (left_ray.clone(), right_ray.clone());
+            return (*left_ray, *right_ray);
         }
         panic!("Expected VertexType::TreeVertex but {:?}", self);
     }
 
     fn set_parent(&mut self, nparent: usize) {
-        if let VertexType::TreeVertex { parent, .. } = self {
+        if let VertexType::Tree { parent, .. } = self {
             *parent = nparent;
         } else {
             panic!("Expected VertexType::TreeVertex but {:?}", self)
@@ -487,7 +487,7 @@ impl Skeleton {
     fn find_split_vertex(
         cv: IndexType,
         vertex_queue: &VertexQueue,
-        vertex_vector: &Vec<VertexType>,
+        vertex_vector: &[VertexType],
         is_init: bool,
         orient: bool,
     ) -> Vec<(f64, Coordinate, IndexType, usize)> {
@@ -539,50 +539,48 @@ impl Skeleton {
                 if !orient && base_ray.orientation(&real_intersection) > 0 {
                     continue;
                 }
+            } else if orient {
+                if vertex_vector[sv_real]
+                    .unwrap_ray()
+                    .orientation(&real_intersection)
+                    >= 0
+                {
+                    continue;
+                }
+                if base_ray.orientation(&real_intersection) < 0 {
+                    continue;
+                }
+                if vertex_vector[srv_real]
+                    .unwrap_ray()
+                    .orientation(&real_intersection)
+                    < 0
+                {
+                    continue;
+                }
             } else {
-                if orient {
-                    if vertex_vector[sv_real]
-                        .unwrap_ray()
-                        .orientation(&real_intersection)
-                        >= 0
-                    {
-                        continue;
-                    }
-                    if base_ray.orientation(&real_intersection) < 0 {
-                        continue;
-                    }
-                    if vertex_vector[srv_real]
-                        .unwrap_ray()
-                        .orientation(&real_intersection)
-                        < 0
-                    {
-                        continue;
-                    }
-                } else {
-                    if vertex_vector[sv_real]
-                        .unwrap_ray()
-                        .orientation(&real_intersection)
-                        <= 0
-                    {
-                        continue;
-                    }
-                    if base_ray.orientation(&real_intersection) > 0 {
-                        continue;
-                    }
-                    if vertex_vector[srv_real]
-                        .unwrap_ray()
-                        .orientation(&real_intersection)
-                        > 0
-                    {
-                        continue;
-                    }
+                if vertex_vector[sv_real]
+                    .unwrap_ray()
+                    .orientation(&real_intersection)
+                    <= 0
+                {
+                    continue;
+                }
+                if base_ray.orientation(&real_intersection) > 0 {
+                    continue;
+                }
+                if vertex_vector[srv_real]
+                    .unwrap_ray()
+                    .orientation(&real_intersection)
+                    > 0
+                {
+                    continue;
                 }
             }
             let dist = real_intersection.dist_ray(&right_ray);
             ret.push((dist, real_intersection, sv, sv_real));
         }
         ret.sort_by(|a, b| a.partial_cmp(b).unwrap());
-        if !is_init && ret.len() != 0 {
+        if !is_init && !ret.is_empty() {
             ret = vec![ret[0]];
         }
         ret
@@ -592,15 +590,15 @@ impl Skeleton {
         cv: IndexType,
         vertex_queue: &VertexQueue,
         event_pq: &mut PriorityQueue<Timeline>,
-        vertex_vector: &Vec<VertexType>,
+        vertex_vector: &[VertexType],
         orient: bool,
     ) {
         let resv = Self::find_split_vertex(cv, vertex_queue, vertex_vector, true, orient);
         let cv_real = vertex_queue.get_real_index(cv);
         for (time, location, _, _) in resv {
             event_pq.insert(Timeline::SplitEvent {
-                time: time,
-                location: location,
+                time,
+                location,
                 anchor_vertex: cv,
                 anchor_real: cv_real,
             });
@@ -611,7 +609,7 @@ impl Skeleton {
         cv: IndexType,
         vertex_queue: &VertexQueue,
         event_pq: &mut PriorityQueue<Timeline>,
-        vertex_vector: &Vec<VertexType>,
+        vertex_vector: &[VertexType],
         is_init: bool,
     ) {
         let mut lv = cv;
@@ -635,7 +633,7 @@ impl Skeleton {
                     right_vertex: rv,
                     left_real: lv_real,
                     right_real: rv_real,
-                    tie_break: tie_break,
+                    tie_break,
                 });
             }
             if is_init {
@@ -736,7 +734,7 @@ impl Skeleton {
                 vertex_vector[left_real].set_parent(new_index);
                 vertex_vector[right_real].set_parent(new_index);
                 let new_event = Event::VertexEvent {
-                    time: time,
+                    time,
                     merge_from: left_vertex.get_index(),
                     merge_to: new_index,
                 };
@@ -841,8 +839,8 @@ impl Skeleton {
         }
         Self {
             ray_vector: vertex_vector,
-            event_queue: event_queue,
-            initial_vertex_queue: initial_vertex_queue,
+            event_queue,
+            initial_vertex_queue,
         }
     }
 
@@ -858,10 +856,8 @@ impl Skeleton {
             }
             visit[cur] = true;
             match ray_vector[cur] {
-                VertexType::RootVertex { .. } => {
-                    return;
-                }
-                VertexType::TreeVertex { parent, .. } => {
+                VertexType::Root { .. } => {}
+                VertexType::Tree { parent, .. } => {
                     if parent == usize::MAX {
                         let ls = LineString(vec![
                             ray_vector[cur].unwrap_location().into(),
@@ -877,7 +873,7 @@ impl Skeleton {
                     ret.push(ls);
                     dfs_helper(parent, visit, ret, ray_vector);
                 }
-                VertexType::SplitVertex {
+                VertexType::Split {
                     split_left,
                     split_right,
                     ..
