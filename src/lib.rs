@@ -233,7 +233,7 @@ pub fn buffer_polygon_rounded(input_polygon: &Polygon, distance: f64) -> MultiPo
 ///
 /// ```
 pub fn buffer_multi_polygon(input_multi_polygon: &MultiPolygon, distance: f64) -> MultiPolygon {
-    let orientation = if distance < 0. { true } else { false };
+    let orientation = distance < 0.;
     let offset_distance = f64::abs(distance);
     let skel = Skeleton::skeleton_of_polygon_vector(&input_multi_polygon.0, orientation);
     let vq = skel.get_vertex_queue(offset_distance);
@@ -277,7 +277,7 @@ pub fn buffer_multi_polygon_rounded(
     input_multi_polygon: &MultiPolygon,
     distance: f64,
 ) -> MultiPolygon {
-    let orientation = if distance < 0. { true } else { false };
+    let orientation = distance < 0.;
     let offset_distance = f64::abs(distance);
     let skel = Skeleton::skeleton_of_polygon_vector(&input_multi_polygon.0, orientation);
     let vq = skel.get_vertex_queue(offset_distance);

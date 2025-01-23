@@ -76,7 +76,7 @@ impl Div<Coordinate> for Coordinate {
     type Output = f64;
     fn div(self, rhs: Self) -> Self::Output {
         if rhs.0 == 0. && rhs.1 == 0. {
-            return 0.;
+            0.
         } else if rhs.1 == 0. {
             return self.0 / rhs.0;
         } else {
@@ -100,7 +100,7 @@ impl Coordinate {
     /// assert_eq!(c1, (3., 4.).into());
     /// ```
     pub fn new(x: f64, y: f64) -> Self {
-        Self { 0: x, 1: y }
+        Self(x, y)
     }
 
     /// Returns a tuple wihch has values of each component.
@@ -223,7 +223,7 @@ impl Coordinate {
         if rhs.is_degenerated() {
             return self.dist_coord(&rhs.origin);
         }
-        return f64::abs((*self - rhs.origin).outer_product(&rhs.angle)) / rhs.angle.norm();
+        f64::abs((*self - rhs.origin).outer_product(&rhs.angle)) / rhs.angle.norm()
     }
 
     /// Checks whether the given two Cartesian coordinates are the same (by the equality test with a small epsilon).
