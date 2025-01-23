@@ -487,7 +487,7 @@ impl Skeleton {
     fn find_split_vertex(
         cv: IndexType,
         vertex_queue: &VertexQueue,
-        vertex_vector: &Vec<VertexType>,
+        vertex_vector: &[VertexType],
         is_init: bool,
         orient: bool,
     ) -> Vec<(f64, Coordinate, IndexType, usize)> {
@@ -590,7 +590,7 @@ impl Skeleton {
         cv: IndexType,
         vertex_queue: &VertexQueue,
         event_pq: &mut PriorityQueue<Timeline>,
-        vertex_vector: &Vec<VertexType>,
+        vertex_vector: &[VertexType],
         orient: bool,
     ) {
         let resv = Self::find_split_vertex(cv, vertex_queue, vertex_vector, true, orient);
@@ -609,7 +609,7 @@ impl Skeleton {
         cv: IndexType,
         vertex_queue: &VertexQueue,
         event_pq: &mut PriorityQueue<Timeline>,
-        vertex_vector: &Vec<VertexType>,
+        vertex_vector: &[VertexType],
         is_init: bool,
     ) {
         let mut lv = cv;
